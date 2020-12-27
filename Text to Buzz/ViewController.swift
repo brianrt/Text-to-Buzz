@@ -22,12 +22,16 @@ class ViewController: UIViewController {
     // Current motor state
     var motorValues: [UInt8] = [0,0,0,0]
     
-    
+    // Class instances
     var buzz: Buzz!
+    var phonemes: Phonemes!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         buzz = Buzz(didUpdateStatus: didUpdateStatus)
+        phonemes = Phonemes()
+        print("Tongue: \(phonemes.wordToPhonemes(word: "Tongue"))")
+        print("tong: \(phonemes.wordToPhonemes(word: "tong"))")
         intializeUI()
     }
     
