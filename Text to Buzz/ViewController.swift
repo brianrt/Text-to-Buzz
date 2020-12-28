@@ -30,8 +30,8 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         buzz = Buzz(didUpdateStatus: didUpdateStatus)
         phonemes = Phonemes()
-        print("Tongue: \(phonemes.wordToPhonemes(word: "Tongue"))")
-        print("tong: \(phonemes.wordToPhonemes(word: "tong"))")
+        let testString = "The hungry purple dinosaur ate the kind, zingy fox, the jabbering crab, and the mad whale and started vending and quacking."
+        print("\(testString):\n \(phonemes.sentenceToPhonemes(sentence: testString))")
         intializeUI()
     }
     
