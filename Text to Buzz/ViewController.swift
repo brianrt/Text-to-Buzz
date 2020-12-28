@@ -25,15 +25,16 @@ class ViewController: UIViewController {
     // Class instances
     var buzz: Buzz!
     var phonemes: Phonemes!
+    var motorController: MotorController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         buzz = Buzz(didUpdateStatus: didUpdateStatus)
         phonemes = Phonemes()
-        let testString = "The hungry purple dinosaur ate the kind, zingy fox, the jabbering crab, and the mad whale and started vending and quacking."
-        print("\(testString):\n \(phonemes.sentenceToPhonemes(sentence: testString))")
+        motorController = MotorController(phonemes: phonemes.phonemes)
         intializeUI()
     }
+    
     
     private func intializeUI() {
         self.connectToBuzz.layer.cornerRadius = 2
@@ -55,7 +56,23 @@ class ViewController: UIViewController {
         }
         initializeMotors()
         buzz.takeOverBuzz()
-        showInitialElements()
+        
+        // [TEST] Go through each phoneme and play on buzz
+        var millisecond = 0
+        let phonemes = self.phonemes.wordToPhonemes(word: "excellent")
+        for phoneme in phonemes {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(millisecond)) {
+                let motorValues = self.motorController.phonemeToIntensities[phoneme]
+                self.statusLabel.text = "\(phoneme): \(motorValues!)"
+                self.buzz.vibrateMotors(motorValues: motorValues!)
+            }
+            millisecond += 500
+        }
+        
+        self.connectToBuzz.isHidden = true
+        self.releaseBuzz.isHidden = false
+//        showInitialElements()
     }
     
     @IBAction func didPressReleaseBuzz(_ sender: Any) {

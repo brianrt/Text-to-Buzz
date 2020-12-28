@@ -11,7 +11,7 @@ import AVFoundation
 class Phonemes: NSObject {
     
     var wordToPhonemesDict: Dictionary<String, [String]> = [:]
-    let phonemes = ["AA", "AE", "AH", "AO", "AW", "AY", "B", "CH", "D", "DH", "EH", "ER", "EY", "F", "G", "HH", "IH", "IY", "JH", "K", "L", "M", "N", "NG", "OW", "OY", "P", "R", "S", "SH", "T", "TH", "UH", "UW", "V", "W", "Y", "Z", "ZH"]
+    let phonemes = ["ah", "a", "uh", "awe", "ow", "I", "b", "ch", "d", "thh", "e", "er", "A", "f", "g", "h", "i", "E", "j", "k", "l", "m", "n", "ng", "O", "oy", "p", "r", "s", "sh", "t", "th", "uu", "oo", "v", "w", "y", "z", "shz"]
     let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "EH": "e", "ER": "er", "EY": "A", "F": "f", "G": "g", "HH": "h", "IH": "i", "IY": "E", "JH": "j", "K": "k", "L": "l", "M": "m", "N": "n", "NG": "ng", "OW": "O", "OY": "oy", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "UH": "uu", "UW": "oo", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
     
     override init() {
