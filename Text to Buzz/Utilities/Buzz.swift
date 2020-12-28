@@ -99,5 +99,4 @@ extension Buzz: CBCentralManagerDelegate, CBPeripheralDelegate {
             }
         }
     }
-
 }

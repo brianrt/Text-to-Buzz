@@ -74,6 +74,12 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="input" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cyk-RB-053">
+                                <rect key="frame" x="71" y="375" width="273" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -86,6 +92,7 @@
                         <outlet property="motor4" destination="pDE-uC-Xc7" id="zUV-dl-UYK"/>
                         <outlet property="releaseBuzz" destination="GdG-5h-G3J" id="AHq-X0-DkW"/>
                         <outlet property="statusLabel" destination="mFh-xe-D09" id="tWe-Ud-07O"/>
+                        <outlet property="textInput" destination="Cyk-RB-053" id="eG6-RB-R6P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

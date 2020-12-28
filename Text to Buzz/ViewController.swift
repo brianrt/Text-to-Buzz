@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var connectToBuzz: UIButton!
     @IBOutlet weak var releaseBuzz: UIButton!
+    @IBOutlet weak var textInput: UITextField!
     
     // Motor sliders
     @IBOutlet weak var motor1: UISlider!
@@ -29,6 +30,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textInput.delegate = self
         buzz = Buzz(didUpdateStatus: didUpdateStatus)
         phonemes = Phonemes()
         motorController = MotorController(phonemes: phonemes.phonemes)
@@ -59,7 +61,7 @@ class ViewController: UIViewController {
         
         // [TEST] Go through each phoneme and play on buzz
         var millisecond = 0
-        let phonemes = self.phonemes.wordToPhonemes(word: "excellent")
+        let phonemes = self.phonemes.wordToPhonemes(word: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
         for phoneme in phonemes {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(millisecond)) {
@@ -68,6 +70,10 @@ class ViewController: UIViewController {
                 self.buzz.vibrateMotors(motorValues: motorValues!)
             }
             millisecond += 500
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(millisecond)) {
+            self.statusLabel.text = "Word complete"
+            self.buzz.vibrateMotors(motorValues: [0,0,0,0])
         }
         
         self.connectToBuzz.isHidden = true
@@ -128,3 +134,9 @@ class ViewController: UIViewController {
     
 }
 
+extension ViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true;
+    }
+}
