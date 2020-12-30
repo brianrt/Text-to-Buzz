@@ -11,8 +11,8 @@ import AVFoundation
 class Phonemes: NSObject {
     
     var wordToPhonemesDict: Dictionary<String, [String]> = [:]
-    let phonemes = ["ah", "a", "uh", "awe", "ow", "I", "b", "ch", "d", "thh", "e", "er", "A", "f", "g", "h", "i", "E", "j", "k", "l", "m", "n", "ng", "O", "oy", "p", "r", "s", "sh", "t", "th", "uu", "oo", "v", "w", "y", "z", "shz"]
-    let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "EH": "e", "ER": "er", "EY": "A", "F": "f", "G": "g", "HH": "h", "IH": "i", "IY": "E", "JH": "j", "K": "k", "L": "l", "M": "m", "N": "n", "NG": "ng", "OW": "O", "OY": "oy", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "UH": "uu", "UW": "oo", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
+    var phonemes = ["ah", "a", "uh", "awe", "ow", "I", "e", "er", "A", "i", "E", "O", "oy", "uu", "oo", "b", "ch", "d", "thh", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "p", "r", "s", "sh", "t", "th", "v", "w", "y", "z", "shz"]
+    let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "EH": "e", "ER": "er", "EY": "A", "IH": "i", "IY": "E", "OW": "O", "OY": "oy", "UH": "uu", "UW": "oo", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "F": "f", "G": "g", "HH": "h", "JH": "j", "K": "k", "L": "l", "M": "m", "N": "n", "NG": "ng", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
     
     override init() {
         super.init()
@@ -32,43 +32,57 @@ class Phonemes: NSObject {
                         if !word.isNumeric {
                             var phonemes = word_phonemes[1].components(separatedBy: " ")
                             // Remove numbers from phonemes
-                            phonemes = phonemes.map { removeNumbersFromStrings(phoneme: $0) }
+                            phonemes = phonemes.map { removeNumbersFromStrings(word: $0) }
                             // Replace phonemes with human readable ones
                             phonemes = phonemes.map { phoneme_human[$0, default: ""] }
                             self.wordToPhonemesDict[word] = phonemes
                         }
                     }
                 }
+                print("done")
             } catch {
                 print(error)
             }
         }
     }
     
-    private func removeNumbersFromStrings(phoneme: String) -> String {
-        return phoneme.components(separatedBy: CharacterSet.decimalDigits).joined()
+    private func removeNumbersFromStrings(word: String) -> String {
+        return word.components(separatedBy: CharacterSet.decimalDigits).joined()
     }
     
-    private func removePunctuationFromStrings(phoneme: String) -> String {
+    private func replaceApostropheWithSingleQuote(word: String) -> String {
+        return word.replacingOccurrences(of: "’", with: "\'", options: .literal, range: nil)
+    }
+    
+    private func removePunctuationFromStrings(word: String) -> String {
         let punctuationSet: CharacterSet = [",", "?", "!", "."]
-        return phoneme.components(separatedBy: punctuationSet).joined()
+        return word.components(separatedBy: punctuationSet).joined()
     }
     
-    public func sentenceToPhonemes(sentence: String) -> [[String]] {
-        var phonemes: [[String]] = []
+    private func extractPunctuation(word: String) -> String {
+        let punctuationSet: CharacterSet = [",", "?", "!", "."]
+        return word.components(separatedBy: punctuationSet.inverted).joined()
+    }
+    
+    public func sentenceToPhonemes(sentence: String) -> [(String,[String])] {
+        var sentencePhonemes: [(String,[String])] = []
         let words = sentence.components(separatedBy: " ")
         for word in words {
-            let phoneme = wordToPhonemes(word: removePunctuationFromStrings(phoneme: word))
-            phonemes.append(phoneme)
+            let wordPhonemes = wordToPhonemes(word: removePunctuationFromStrings(word: word))
+            sentencePhonemes.append((word,wordPhonemes))
             if word.containsPunctuation {
-                phonemes.append([""])
+                sentencePhonemes.append((extractPunctuation(word: word),[""]))
             }
         }
-        return phonemes
+        return sentencePhonemes
     }
 
     public func wordToPhonemes(word: String) -> [String] {
-        return self.wordToPhonemesDict[word.uppercased(), default: [""]]
+        // iOS keyboard uses apostrophe whereas phonemes_dict uses single quote
+        let word_uppercased = replaceApostropheWithSingleQuote(word: word).uppercased()
+        var wordPhonemes = self.wordToPhonemesDict[word_uppercased, default: [""]]
+        wordPhonemes.append("")
+        return wordPhonemes
     }
 }
 
@@ -85,4 +99,5 @@ extension String {
         let punctuationSet: CharacterSet = [",", "?", "!", "."]
         return !isEmpty && rangeOfCharacter(from: punctuationSet) != nil
     }
+
 }

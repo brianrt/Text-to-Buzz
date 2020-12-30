@@ -10,7 +10,7 @@
 		2837A6E52599A27B006A0052 /* MotorController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2837A6E42599A27B006A0052 /* MotorController.swift */; };
 		28915BE3256B7D8900230F52 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28915BE2256B7D8900230F52 /* AppDelegate.swift */; };
 		28915BE5256B7D8900230F52 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28915BE4256B7D8900230F52 /* SceneDelegate.swift */; };
-		28915BE7256B7D8900230F52 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28915BE6256B7D8900230F52 /* ViewController.swift */; };
+		28915BE7256B7D8900230F52 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28915BE6256B7D8900230F52 /* MainViewController.swift */; };
 		28915BEA256B7D8900230F52 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28915BE8256B7D8900230F52 /* Main.storyboard */; };
 		28915BEC256B7D8C00230F52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 28915BEB256B7D8C00230F52 /* Assets.xcassets */; };
 		28915BEF256B7D8C00230F52 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 28915BED256B7D8C00230F52 /* LaunchScreen.storyboard */; };
@@ -24,7 +24,7 @@
 		28915BDF256B7D8900230F52 /* Text to Buzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Text to Buzz.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28915BE2256B7D8900230F52 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		28915BE4256B7D8900230F52 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		28915BE6256B7D8900230F52 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		28915BE6256B7D8900230F52 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		28915BE9256B7D8900230F52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		28915BEB256B7D8C00230F52 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		28915BEE256B7D8C00230F52 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -45,6 +45,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2837A6E7259AF4A6006A0052 /* UserInterface */ = {
+			isa = PBXGroup;
+			children = (
+				28915BE6256B7D8900230F52 /* MainViewController.swift */,
+			);
+			path = UserInterface;
+			sourceTree = "<group>";
+		};
 		28915BD6256B7D8900230F52 = {
 			isa = PBXGroup;
 			children = (
@@ -64,11 +72,11 @@
 		28915BE1256B7D8900230F52 /* Text to Buzz */ = {
 			isa = PBXGroup;
 			children = (
+				2837A6E7259AF4A6006A0052 /* UserInterface */,
 				28F203FF25985C81002C67D7 /* Resource */,
 				28915BF8256B7DCB00230F52 /* Utilities */,
 				28915BE2256B7D8900230F52 /* AppDelegate.swift */,
 				28915BE4256B7D8900230F52 /* SceneDelegate.swift */,
-				28915BE6256B7D8900230F52 /* ViewController.swift */,
 				28915BE8256B7D8900230F52 /* Main.storyboard */,
 				28915BEB256B7D8C00230F52 /* Assets.xcassets */,
 				28915BED256B7D8C00230F52 /* LaunchScreen.storyboard */,
@@ -159,7 +167,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				28915BFA256B7DF300230F52 /* Buzz.swift in Sources */,
-				28915BE7256B7D8900230F52 /* ViewController.swift in Sources */,
+				28915BE7256B7D8900230F52 /* MainViewController.swift in Sources */,
 				28915BE3256B7D8900230F52 /* AppDelegate.swift in Sources */,
 				28F203F225980738002C67D7 /* Phonemes.swift in Sources */,
 				28915BE5256B7D8900230F52 /* SceneDelegate.swift in Sources */,

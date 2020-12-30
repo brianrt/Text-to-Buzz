@@ -50,5 +50,9 @@ class MotorController: NSObject {
         return motorValues
     }
     
+    public func getIntensities(phoneme: String) -> [UInt8] {
+        return self.phonemeToIntensities[phoneme, default: [0,0,0,0]]
+    }
+    
     
 }
