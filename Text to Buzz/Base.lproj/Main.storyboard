@@ -39,33 +39,15 @@
                                 <rect key="frame" x="20" y="183" width="374" height="679"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Type sentence here" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cyk-RB-053">
-                                        <rect key="frame" x="50" y="123" width="273" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                                    </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-D8-mLC">
-                                        <rect key="frame" x="50" y="165" width="273" height="32"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GdG-5h-G3J">
+                                        <rect key="frame" x="50" y="608" width="273" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="AccentColor"/>
-                                        <state key="normal" title="Play sentence">
+                                        <state key="normal" title="Release Buzz">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kLi-El-WXI"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rir-5A-VFY">
-                                        <rect key="frame" x="331" y="125" width="33" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <color key="tintColor" systemColor="systemRedColor"/>
-                                        <state key="normal" backgroundImage="clear.fill" catalog="system">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressClear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uh8-cQ-w9y"/>
-                                            <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0i7-XE-vMg"/>
+                                            <action selector="didPressReleaseBuzz:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfp-8H-6tI"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTJ-A3-LEs">
@@ -94,17 +76,49 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GdG-5h-G3J">
-                                        <rect key="frame" x="50" y="608" width="273" height="37"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Type sentence here" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Cyk-RB-053">
+                                        <rect key="frame" x="50" y="85" width="273" height="34"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-D8-mLC">
+                                        <rect key="frame" x="50" y="127" width="273" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="AccentColor"/>
-                                        <state key="normal" title="Release Buzz">
+                                        <state key="normal" title="Play sentence">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <connections>
-                                            <action selector="didPressReleaseBuzz:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfp-8H-6tI"/>
+                                            <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kLi-El-WXI"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rir-5A-VFY">
+                                        <rect key="frame" x="331" y="87" width="33" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" systemColor="systemRedColor"/>
+                                        <state key="normal" backgroundImage="clear.fill" catalog="system">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressClear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uh8-cQ-w9y"/>
+                                            <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0i7-XE-vMg"/>
+                                        </connections>
+                                    </button>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="cfc-uw-mzA">
+                                        <rect key="frame" x="50" y="167" width="94" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="didPressStepper:" destination="BYZ-38-t0r" eventType="valueChanged" id="9Vn-QJ-gC8"/>
+                                        </connections>
+                                    </stepper>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YH5-GY-xgO">
+                                        <rect key="frame" x="152" y="167" width="171" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="30"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             </view>
@@ -120,6 +134,8 @@
                         <outlet property="motor4View" destination="4i8-Vz-9Wi" id="b74-3S-PDy"/>
                         <outlet property="phonemeLabel" destination="DTJ-A3-LEs" id="MHJ-Kv-iZb"/>
                         <outlet property="playSentence" destination="Ev8-D8-mLC" id="FMr-8l-Dun"/>
+                        <outlet property="playbackSpeedLabel" destination="YH5-GY-xgO" id="LRO-nM-3t1"/>
+                        <outlet property="playbackStepper" destination="cfc-uw-mzA" id="AsB-CW-JqY"/>
                         <outlet property="releaseBuzz" destination="GdG-5h-G3J" id="05h-Sm-twO"/>
                         <outlet property="statusLabel" destination="mFh-xe-D09" id="biS-gk-llF"/>
                         <outlet property="textInput" destination="Cyk-RB-053" id="sI8-5G-Pql"/>
