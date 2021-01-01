@@ -17,6 +17,17 @@ class MainViewController: UIViewController {
     @IBOutlet weak var trainingView: UIView!
     @IBOutlet weak var phonemeLabel: UILabel!
     
+    // Motor visualizers
+    @IBOutlet weak var motor1View: UIView!
+    @IBOutlet weak var motor2View: UIView!
+    @IBOutlet weak var motor3View: UIView!
+    @IBOutlet weak var motor4View: UIView!
+    
+    // Motor value array
+    var motorValueViews: [UIView]!
+    var initialMotorViewHeight: CGFloat!
+    var initialMotorViewY: CGFloat!
+    
     // Current motor state
     var motorValues: [UInt8] = [0,0,0,0]
     
@@ -40,10 +51,21 @@ class MainViewController: UIViewController {
         self.playSentence.layer.cornerRadius = 4
         self.trainingView.isHidden = true
         self.textInput.delegate = self
+        
+        //Setup motorViews
+        self.motorValueViews = [motor1View, motor2View, motor3View, motor4View]
+        initialMotorViewHeight = motor1View.frame.height
+        initialMotorViewY = motor1View.frame.origin.y
+        updateMotorHeight(motorValues: [0,0,0,0])
+        motor1View.layer.cornerRadius = 4
+        motor2View.layer.cornerRadius = 4
+        motor3View.layer.cornerRadius = 4
+        motor4View.layer.cornerRadius = 4
     }
     
     private func initializeMotors() {
         motorValues = [0,0,0,0]
+        
     }
 
     @IBAction func didPressConnectToBuzz(_ sender: Any) {
@@ -71,22 +93,44 @@ class MainViewController: UIViewController {
             let phonemes = wordPhonemes.1
             for phoneme in phonemes {
                 Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
-                seconds += 0.5
+                seconds += 0.4
+                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
+                seconds += 0.125
             }
         }
-        Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
+        Timer.scheduledTimer(timeInterval: seconds+0.5, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
     }
     
     @objc func playPhoneme(sender: Timer) {
         let phoneme = sender.userInfo as! String
         let motorValues = self.motorController.getIntensities(phoneme: phoneme)
-        self.phonemeLabel.text = self.phonemeLabel.text! + "\(phoneme) "
+        self.phonemeLabel.text = phoneme
         self.buzz.vibrateMotors(motorValues: motorValues)
+        self.updateMotorHeight(motorValues: motorValues)
+    }
+    
+    @objc func zeroMotors() {
+        self.buzz.vibrateMotors(motorValues: [0,0,0,0])
     }
     
     @objc func endSentence() {
         self.phonemeLabel.text = ""
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
+    }
+    
+    func updateMotorHeight(motorValues: [UInt8]) {
+        
+        for i in 0..<4 {
+            let motorValue = motorValues[i]
+            let heightRatio = CGFloat(motorValue) / 255.0
+            let yRatio = 1.0 - heightRatio
+            let newHeight = heightRatio * initialMotorViewHeight
+            let newY = initialMotorViewY + (yRatio * initialMotorViewHeight)
+            let motorView = motorValueViews[i]
+            UIView.animate(withDuration: 0.25) {
+                motorView.frame = CGRect(x: motorView.frame.origin.x, y: newY, width: motorView.frame.width, height: newHeight )
+            }
+        }
     }
     
     @IBAction func didPressReleaseBuzz(_ sender: Any) {

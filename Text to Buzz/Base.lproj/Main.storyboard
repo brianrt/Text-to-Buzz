@@ -45,19 +45,8 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                     </textField>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GdG-5h-G3J">
-                                        <rect key="frame" x="50" y="553" width="273" height="80"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" name="AccentColor"/>
-                                        <state key="normal" title="Release Buzz">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="didPressReleaseBuzz:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfp-8H-6tI"/>
-                                        </connections>
-                                    </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ev8-D8-mLC">
-                                        <rect key="frame" x="51" y="250" width="273" height="32"/>
+                                        <rect key="frame" x="50" y="165" width="273" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="AccentColor"/>
                                         <state key="normal" title="Play sentence">
@@ -67,14 +56,8 @@
                                             <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kLi-El-WXI"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTJ-A3-LEs">
-                                        <rect key="frame" x="50" y="165" width="273" height="77"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="20"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rir-5A-VFY">
-                                        <rect key="frame" x="331" y="131" width="22" height="19"/>
+                                        <rect key="frame" x="331" y="125" width="33" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                         <color key="tintColor" systemColor="systemRedColor"/>
                                         <state key="normal" backgroundImage="clear.fill" catalog="system">
@@ -83,6 +66,43 @@
                                         <connections>
                                             <action selector="didPressClear:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uh8-cQ-w9y"/>
                                             <action selector="didPressPlaySentence:" destination="BYZ-38-t0r" eventType="touchUpInside" id="0i7-XE-vMg"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DTJ-A3-LEs">
+                                        <rect key="frame" x="50" y="221" width="273" height="77"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="65"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bxf-a3-wR0">
+                                        <rect key="frame" x="75" y="328" width="50" height="167"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5PE-S4-Vp7">
+                                        <rect key="frame" x="133" y="328" width="50" height="167"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tKe-k2-fKI">
+                                        <rect key="frame" x="191" y="328" width="50" height="167"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4i8-Vz-9Wi">
+                                        <rect key="frame" x="249" y="328" width="50" height="167"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GdG-5h-G3J">
+                                        <rect key="frame" x="50" y="608" width="273" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <state key="normal" title="Release Buzz">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="didPressReleaseBuzz:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfp-8H-6tI"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -94,6 +114,10 @@
                     </view>
                     <connections>
                         <outlet property="connectToBuzz" destination="fd4-EO-DQ3" id="FgR-BG-C0Z"/>
+                        <outlet property="motor1View" destination="bxf-a3-wR0" id="Dsv-T1-p13"/>
+                        <outlet property="motor2View" destination="5PE-S4-Vp7" id="Oae-3Q-3Ij"/>
+                        <outlet property="motor3View" destination="tKe-k2-fKI" id="oGQ-0p-MUX"/>
+                        <outlet property="motor4View" destination="4i8-Vz-9Wi" id="b74-3S-PDy"/>
                         <outlet property="phonemeLabel" destination="DTJ-A3-LEs" id="MHJ-Kv-iZb"/>
                         <outlet property="playSentence" destination="Ev8-D8-mLC" id="FMr-8l-Dun"/>
                         <outlet property="releaseBuzz" destination="GdG-5h-G3J" id="05h-Sm-twO"/>
