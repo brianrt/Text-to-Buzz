@@ -63,25 +63,30 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func didPressPlaySentence(_ sender: Any) {
-        var millisecond = 0
+        var seconds = 0.0
         self.phonemeLabel.text = ""
         let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
         for wordPhonemes in sentencePhonemes {
 //            let word = wordPhonemes.0
             let phonemes = wordPhonemes.1
             for phoneme in phonemes {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(millisecond)) {
-                    let motorValues = self.motorController.getIntensities(phoneme: phoneme)
-                    self.phonemeLabel.text = self.phonemeLabel.text! + "\(phoneme) "
-                    self.buzz.vibrateMotors(motorValues: motorValues)
-                }
-                millisecond += 500
+                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
+                seconds += 0.5
             }
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(millisecond + 1000)) {
-            self.phonemeLabel.text = ""
-            self.buzz.vibrateMotors(motorValues: [0,0,0,0])
-        }
+        Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
+    }
+    
+    @objc func playPhoneme(sender: Timer) {
+        let phoneme = sender.userInfo as! String
+        let motorValues = self.motorController.getIntensities(phoneme: phoneme)
+        self.phonemeLabel.text = self.phonemeLabel.text! + "\(phoneme) "
+        self.buzz.vibrateMotors(motorValues: motorValues)
+    }
+    
+    @objc func endSentence() {
+        self.phonemeLabel.text = ""
+        self.buzz.vibrateMotors(motorValues: [0,0,0,0])
     }
     
     @IBAction func didPressReleaseBuzz(_ sender: Any) {
