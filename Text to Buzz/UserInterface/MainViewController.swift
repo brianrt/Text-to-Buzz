@@ -16,6 +16,8 @@ class MainViewController: UIViewController {
     @IBOutlet weak var playSentence: UIButton!
     @IBOutlet weak var trainingView: UIView!
     @IBOutlet weak var phonemeLabel: UILabel!
+    @IBOutlet weak var typeView: UIView!
+    @IBOutlet weak var practiceView: UIView!
     
     // Motor visualizers
     @IBOutlet weak var motor1View: UIView!
@@ -27,6 +29,21 @@ class MainViewController: UIViewController {
     @IBOutlet weak var playbackStepper: UIStepper!
     @IBOutlet weak var playbackSpeedLabel: UILabel!
     
+    // For practice
+    @IBOutlet weak var typePracticeSegment: UISegmentedControl!
+    @IBOutlet weak var practiceWord1: UIButton!
+    @IBOutlet weak var practiceWord2: UIButton!
+    @IBOutlet weak var practiceWord3: UIButton!
+    @IBOutlet weak var practiceWord4: UIButton!
+    @IBOutlet weak var trainTestSegment: UISegmentedControl!
+    @IBOutlet weak var switchWords: UIButton!
+    @IBOutlet weak var guessTheWord: UIButton!
+    @IBOutlet weak var trainTestView: UIView!
+    @IBOutlet weak var difficultyPicker: UISegmentedControl!
+    @IBOutlet weak var selectDifficulty: UIButton!
+    
+    var trainingWords: [String] = ["", "", "", ""]
+    var testWord = ""
     
     // Motor value array
     var motorValueViews: [UIView]!
@@ -75,7 +92,19 @@ class MainViewController: UIViewController {
         playbackStepper.autorepeat = true
         playbackStepper.minimumValue = 1
         playbackStepper.maximumValue = 5
-        playbackStepper.value = 1
+        playbackStepper.value = 2
+        playBackSpeed = playbackStepper.value
+        playbackSpeedLabel.text = String(Int(playbackStepper.value))
+        
+        // Setup practice view
+        practiceView.isHidden = true
+        selectDifficulty.layer.cornerRadius = 2
+        switchWords.layer.cornerRadius = 2
+        guessTheWord.layer.cornerRadius = 2
+        practiceWord1.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
+        practiceWord2.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
+        practiceWord3.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
+        practiceWord4.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
     }
     
     private func initializeMotors() {
@@ -100,9 +129,14 @@ class MainViewController: UIViewController {
     
     @IBAction func didPressPlaySentence(_ sender: Any) {
         playbackStepper.isEnabled = false
+        playSentence.isEnabled = false
+        playSentence(sentence: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
+    func playSentence(sentence: String) {
         var seconds = 0.0
         self.phonemeLabel.text = ""
-        let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
+        let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: sentence)
         for wordPhonemes in sentencePhonemes {
 //            let word = wordPhonemes.0
             let phonemes = wordPhonemes.1
@@ -137,6 +171,7 @@ class MainViewController: UIViewController {
         self.phonemeLabel.text = ""
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
         self.playbackStepper.isEnabled = true
+        self.playSentence.isEnabled = true
     }
     
     func updateMotorHeight(motorValues: [UInt8]) {
@@ -153,7 +188,103 @@ class MainViewController: UIViewController {
             }
         }
     }
+    
+    @IBAction func didChangeTypePracticeSegment(_ sender: Any) {
+        if typePracticeSegment.selectedSegmentIndex == 0 {
+            // Show Type view
+            typeView.isHidden = false
+            practiceView.isHidden = true
+            phonemeLabel.isHidden = false
+            for motorView in motorValueViews {
+                motorView.isHidden = false
+            }
+        } else {
+            // Show practice view
+            typeView.isHidden = true
+            practiceView.isHidden = false
+            showDifficultySelection()
+        }
+    }
+    
+    func showTrainPracticeMode() {
+    }
+    
+    func showDifficultySelection() {
+        difficultyPicker.isHidden = false
+        selectDifficulty.isHidden = false
+        trainTestView.isHidden = true
+    }
+    
+    @IBAction func didSelectDifficulty(_ sender: Any) {
+        difficultyPicker.isHidden = true
+        selectDifficulty.isHidden = true
+        trainTestView.isHidden = false
+        guessTheWord.isHidden = true
+        trainTestSegment.selectedSegmentIndex = 0
+        phonemeLabel.isHidden = false
+        for motorView in motorValueViews {
+            motorView.isHidden = false
+        }
+        populateWords()
+    }
+    
+    @IBAction func didPressSwitchWords(_ sender: Any) {
+        populateWords()
+    }
+    
+    func populateWords() {
+        // Get four words at that difficulty
+        let practiceDifficulty = difficultyPicker.selectedSegmentIndex + 1
+        trainingWords = self.phonemes.getRandomWords(difficulty: practiceDifficulty)
+        practiceWord1.setTitle(trainingWords[0], for: .normal)
+        practiceWord2.setTitle(trainingWords[1], for: .normal)
+        practiceWord3.setTitle(trainingWords[2], for: .normal)
+        practiceWord4.setTitle(trainingWords[3], for: .normal)
+    }
+    
+    @IBAction func didPressPlayAndGuess(_ sender: Any) {
+        if testWord == "" {
+            testWord = trainingWords[Int(arc4random_uniform(UInt32(4)))]
+        }
+        statusLabel.text = "Playing test word. Guess the correct word!"
+        playSentence(sentence: testWord)
+    }
+    
+    
+    @objc func didPressTrainingWord(_ sender: UIButton){
+        var selectedWord = ""
         
+        // Grab word which was selected
+        switch sender {
+            case practiceWord1:
+                selectedWord = trainingWords[0]
+            case practiceWord2:
+                selectedWord = trainingWords[1]
+            case practiceWord3:
+                selectedWord = trainingWords[2]
+            case practiceWord4:
+                selectedWord = trainingWords[3]
+            default:
+                print("not possible")
+        }
+        
+        if trainTestSegment.selectedSegmentIndex == 0 { // training mode
+            statusLabel.text = "Playing \(selectedWord)"
+            playSentence(sentence: selectedWord)
+        } else { // testing mode
+            if testWord == "" {
+                statusLabel.text = "Please tap \"Play and Guess\" first"
+            } else {
+                if selectedWord == testWord {
+                    statusLabel.text = "Correct! The word is \(testWord)"
+                } else {
+                    statusLabel.text = "Incorrect, the word is \(testWord)"
+                }
+                testWord = ""
+            }
+        }
+    }
+    
     @IBAction func didPressReleaseBuzz(_ sender: Any) {
         self.trainingView.isHidden = true
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
@@ -169,6 +300,24 @@ class MainViewController: UIViewController {
         self.playbackSpeedLabel.text = String(Int(playbackStepper.value))
     }
     
+    @IBAction func didChangeTrainTestIndex(_ sender: Any) {
+        if trainTestSegment.selectedSegmentIndex == 0 {
+            statusLabel.text = "Tap any word to play on buzz"
+            guessTheWord.isHidden = true
+            phonemeLabel.isHidden = false
+            for motorView in motorValueViews {
+                motorView.isHidden = false
+            }
+        } else {
+            statusLabel.text = "Press \"Play and Guess\", then guess the word"
+            guessTheWord.isHidden = false
+            phonemeLabel.isHidden = true
+            for motorView in motorValueViews {
+                motorView.isHidden = true
+            }
+        }
+    }
+    
     
 }
 
@@ -177,4 +326,18 @@ extension MainViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         return true;
     }
+}
+
+extension MainViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "basicStyleCell", for: indexPath)
+        cell.textLabel?.text = "test"
+        return cell
+    }
+    
+
 }

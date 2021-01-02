@@ -89,6 +89,20 @@ class Phonemes: NSObject {
     public func isVowel(phoneme: String) -> Bool {
         return vowels.contains(phoneme)
     }
+    
+    // Returns four random words with difficulty number of phonemes
+    public func getRandomWords(difficulty: Int) -> [String] {
+        var words: [String] = []
+        while words.count < 4 {
+            let index: Int = Int(arc4random_uniform(UInt32(wordToPhonemesDict.count)))
+            let word = Array(wordToPhonemesDict.keys)[index]
+            let phoneme = Array(wordToPhonemesDict.values)[index]
+            if phoneme.count == difficulty {
+                words.append(word)
+            }
+        }
+        return words
+    }
 }
 
 extension String {
