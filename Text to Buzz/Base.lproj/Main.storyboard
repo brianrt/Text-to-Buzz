@@ -146,17 +146,6 @@
                                                 <rect key="frame" x="0.0" y="-3" width="374" height="212"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PmI-e0-zWq">
-                                                        <rect key="frame" x="112" y="173" width="151" height="32"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <segments>
-                                                            <segment title="Train"/>
-                                                            <segment title="Test"/>
-                                                        </segments>
-                                                        <connections>
-                                                            <action selector="didChangeTrainTestIndex:" destination="BYZ-38-t0r" eventType="valueChanged" id="neZ-YK-aDP"/>
-                                                        </connections>
-                                                    </segmentedControl>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QHw-uj-8aE">
                                                         <rect key="frame" x="205" y="46" width="119" height="32"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
@@ -199,6 +188,34 @@
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                         <state key="normal" title="Word 3"/>
                                                     </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Streak:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XwF-Hm-hSx">
+                                                        <rect key="frame" x="104" y="182" width="54" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5dV-PX-vFX">
+                                                        <rect key="frame" x="166" y="182" width="35" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Max:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZyB-yf-Pbu">
+                                                        <rect key="frame" x="205" y="182" width="37" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ucS-oX-6Wt">
+                                                        <rect key="frame" x="248" y="182" width="35" height="21"/>
+                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="17"/>
+                                                        <nil key="textColor"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             </view>
@@ -237,6 +254,7 @@
                         <outlet property="connectToBuzz" destination="fd4-EO-DQ3" id="FgR-BG-C0Z"/>
                         <outlet property="difficultyPicker" destination="y92-Wb-rn7" id="ZMF-b6-gnV"/>
                         <outlet property="guessTheWord" destination="uZG-aF-Qxe" id="Gvz-3k-pHj"/>
+                        <outlet property="maxLabel" destination="ucS-oX-6Wt" id="IOg-mv-vwQ"/>
                         <outlet property="motor1View" destination="bxf-a3-wR0" id="Dsv-T1-p13"/>
                         <outlet property="motor2View" destination="5PE-S4-Vp7" id="Oae-3Q-3Ij"/>
                         <outlet property="motor3View" destination="tKe-k2-fKI" id="oGQ-0p-MUX"/>
@@ -253,9 +271,9 @@
                         <outlet property="releaseBuzz" destination="GdG-5h-G3J" id="05h-Sm-twO"/>
                         <outlet property="selectDifficulty" destination="HqD-H1-GFl" id="hDJ-d0-tp8"/>
                         <outlet property="statusLabel" destination="mFh-xe-D09" id="biS-gk-llF"/>
+                        <outlet property="streakLabel" destination="5dV-PX-vFX" id="PUP-8t-o7V"/>
                         <outlet property="switchWords" destination="QHw-uj-8aE" id="tou-d2-OEN"/>
                         <outlet property="textInput" destination="Cyk-RB-053" id="sI8-5G-Pql"/>
-                        <outlet property="trainTestSegment" destination="PmI-e0-zWq" id="juo-CC-IPb"/>
                         <outlet property="trainTestView" destination="3Xx-IV-SoN" id="DUH-l4-ywd"/>
                         <outlet property="trainingView" destination="DFQ-hV-miH" id="gJB-Nr-NwG"/>
                         <outlet property="typePracticeSegment" destination="AtC-YE-Sp4" id="uCm-xQ-nvl"/>

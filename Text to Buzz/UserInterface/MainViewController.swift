@@ -35,15 +35,18 @@ class MainViewController: UIViewController {
     @IBOutlet weak var practiceWord2: UIButton!
     @IBOutlet weak var practiceWord3: UIButton!
     @IBOutlet weak var practiceWord4: UIButton!
-    @IBOutlet weak var trainTestSegment: UISegmentedControl!
     @IBOutlet weak var switchWords: UIButton!
     @IBOutlet weak var guessTheWord: UIButton!
     @IBOutlet weak var trainTestView: UIView!
     @IBOutlet weak var difficultyPicker: UISegmentedControl!
     @IBOutlet weak var selectDifficulty: UIButton!
+    @IBOutlet weak var streakLabel: UILabel!
+    @IBOutlet weak var maxLabel: UILabel!
     
     var trainingWords: [String] = ["", "", "", ""]
     var testWord = ""
+    var winningStreak = 0
+    var maxStreak = 0
     
     // Motor value array
     var motorValueViews: [UIView]!
@@ -219,8 +222,6 @@ class MainViewController: UIViewController {
         difficultyPicker.isHidden = true
         selectDifficulty.isHidden = true
         trainTestView.isHidden = false
-        guessTheWord.isHidden = true
-        trainTestSegment.selectedSegmentIndex = 0
         phonemeLabel.isHidden = false
         for motorView in motorValueViews {
             motorView.isHidden = false
@@ -240,13 +241,25 @@ class MainViewController: UIViewController {
         practiceWord2.setTitle(trainingWords[1], for: .normal)
         practiceWord3.setTitle(trainingWords[2], for: .normal)
         practiceWord4.setTitle(trainingWords[3], for: .normal)
+        testWord = ""
+        winningStreak = 0
+        maxStreak = 0
+        streakLabel.text = String(winningStreak)
+        maxLabel.text = String(maxStreak)
     }
     
     @IBAction func didPressPlayAndGuess(_ sender: Any) {
+        // If new test word, choose a random one
         if testWord == "" {
             testWord = trainingWords[Int(arc4random_uniform(UInt32(4)))]
         }
         statusLabel.text = "Playing test word. Guess the correct word!"
+        
+        // Hide training aids
+        phonemeLabel.isHidden = true
+        for motorView in motorValueViews {
+            motorView.isHidden = true
+        }
         playSentence(sentence: testWord)
     }
     
@@ -268,20 +281,38 @@ class MainViewController: UIViewController {
                 print("not possible")
         }
         
-        if trainTestSegment.selectedSegmentIndex == 0 { // training mode
+        if testWord == "" { // training mode
             statusLabel.text = "Playing \(selectedWord)"
+            phonemeLabel.isHidden = false
+            
+            // Reset winning streak
+            winningStreak = 0
+            streakLabel.text = String(winningStreak)
+            
+            // Show training aids
+            for motorView in motorValueViews {
+                motorView.isHidden = false
+            }
             playSentence(sentence: selectedWord)
         } else { // testing mode
-            if testWord == "" {
-                statusLabel.text = "Please tap \"Play and Guess\" first"
-            } else {
-                if selectedWord == testWord {
-                    statusLabel.text = "Correct! The word is \(testWord)"
-                } else {
-                    statusLabel.text = "Incorrect, the word is \(testWord)"
+            if selectedWord == testWord {
+                statusLabel.text = "Correct! The word is \(testWord)"
+                // Increment streak
+                winningStreak += 1
+                streakLabel.text = String(winningStreak)
+                
+                // Set new max
+                if winningStreak > maxStreak {
+                    maxStreak = winningStreak
+                    maxLabel.text = String(maxStreak)
                 }
-                testWord = ""
+            } else {
+                statusLabel.text = "Incorrect, the word is \(testWord)"
+                // Reset streak
+                winningStreak = 0
+                streakLabel.text = String(winningStreak)
             }
+            testWord = ""
         }
     }
     
@@ -299,26 +330,6 @@ class MainViewController: UIViewController {
         self.playBackSpeed = playbackStepper.value
         self.playbackSpeedLabel.text = String(Int(playbackStepper.value))
     }
-    
-    @IBAction func didChangeTrainTestIndex(_ sender: Any) {
-        if trainTestSegment.selectedSegmentIndex == 0 {
-            statusLabel.text = "Tap any word to play on buzz"
-            guessTheWord.isHidden = true
-            phonemeLabel.isHidden = false
-            for motorView in motorValueViews {
-                motorView.isHidden = false
-            }
-        } else {
-            statusLabel.text = "Press \"Play and Guess\", then guess the word"
-            guessTheWord.isHidden = false
-            phonemeLabel.isHidden = true
-            for motorView in motorValueViews {
-                motorView.isHidden = true
-            }
-        }
-    }
-    
-    
 }
 
 extension MainViewController: UITextFieldDelegate {
