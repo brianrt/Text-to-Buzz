@@ -15,6 +15,9 @@ class Phonemes: NSObject {
     var vowels = ["ah", "a", "uh", "awe", "ow", "I", "e", "er", "A", "i", "E", "O", "oy", "uu", "oo"]
     let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "EH": "e", "ER": "er", "EY": "A", "IH": "i", "IY": "E", "OW": "O", "OY": "oy", "UH": "uu", "UW": "oo", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "F": "f", "G": "g", "HH": "h", "JH": "j", "K": "k", "L": "l", "M": "m", "N": "n", "NG": "ng", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
     
+    // Dictionaries containing elements with n phonemes
+    var numPhonemesDicts: [Dictionary<String, [String]>] = [[:], [:], [:], [:], [:]]
+    
     override init() {
         super.init()
         self.loadDictFromFile()
@@ -37,9 +40,16 @@ class Phonemes: NSObject {
                             // Replace phonemes with human readable ones
                             phonemes = phonemes.map { phoneme_human[$0, default: ""] }
                             self.wordToPhonemesDict[word] = phonemes
+                            // Add to correct numPhoneme dict
+                            let index = phonemes.count - 1
+                            if index < numPhonemesDicts.count {
+                                numPhonemesDicts[index][word] = phonemes
+                            }
                         }
                     }
                 }
+                
+                
                 print("done")
             } catch {
                 print(error)
@@ -92,12 +102,17 @@ class Phonemes: NSObject {
     
     // Returns four random words with difficulty number of phonemes
     public func getRandomWords(difficulty: Int) -> [String] {
+        let phonemesDict = numPhonemesDicts[difficulty - 1]
         var words: [String] = []
+        var phonemes: [[String]] = []
         while words.count < 4 {
-            let index: Int = Int(arc4random_uniform(UInt32(wordToPhonemesDict.count)))
-            let word = Array(wordToPhonemesDict.keys)[index]
-            let phoneme = Array(wordToPhonemesDict.values)[index]
-            if phoneme.count == difficulty {
+            let index: Int = Int(arc4random_uniform(UInt32(phonemesDict.count)))
+            let word = Array(phonemesDict.keys)[index]
+            let phoneme = phonemesDict[word]
+            
+            // Ensure no duplicates
+            if !phonemes.contains(phoneme!) {
+                phonemes.append(phoneme!)
                 words.append(word)
             }
         }

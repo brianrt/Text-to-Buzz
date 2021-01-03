@@ -43,6 +43,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var streakLabel: UILabel!
     @IBOutlet weak var maxLabel: UILabel!
     
+    var practiceWordsArray: [UIButton]!
     var trainingWords: [String] = ["", "", "", ""]
     var testWord = ""
     var winningStreak = 0
@@ -108,6 +109,7 @@ class MainViewController: UIViewController {
         practiceWord2.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
         practiceWord3.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
         practiceWord4.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
+        practiceWordsArray = [practiceWord1, practiceWord2, practiceWord3, practiceWord4]
     }
     
     private func initializeMotors() {
@@ -151,8 +153,8 @@ class MainViewController: UIViewController {
                     phonemeTime *= 1.3
                 }
                 seconds += phonemeTime
-                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
-                seconds += 0.2 / playBackSpeed
+//                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
+//                seconds += 0.2 / playBackSpeed
             }
         }
         Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
@@ -175,6 +177,11 @@ class MainViewController: UIViewController {
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
         self.playbackStepper.isEnabled = true
         self.playSentence.isEnabled = true
+        
+        // Re-enable practice words
+        for practiceWord in practiceWordsArray {
+            practiceWord.isEnabled = true
+        }
     }
     
     func updateMotorHeight(motorValues: [UInt8]) {
@@ -282,6 +289,11 @@ class MainViewController: UIViewController {
         }
         
         if testWord == "" { // training mode
+            // Disable pressing words again until playback is finished
+            for practiceWord in practiceWordsArray {
+                practiceWord.isEnabled = false
+            }
+            
             statusLabel.text = "Playing \(selectedWord)"
             phonemeLabel.isHidden = false
             
