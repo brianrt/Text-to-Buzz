@@ -11,9 +11,9 @@ import AVFoundation
 class Phonemes: NSObject {
     
     var wordToPhonemesDict: Dictionary<String, [String]> = [:]
-    var phonemes = ["ah", "a", "uh", "awe", "ow", "I", "e", "er", "A", "i", "E", "O", "oy", "uu", "oo", "b", "ch", "d", "thh", "f", "g", "h", "j", "k", "l", "m", "n", "ng", "p", "r", "s", "sh", "t", "th", "v", "w", "y", "z", "shz"]
+    var phonemes = ["ah", "a", "uh", "awe", "ow", "I", "e", "er", "A", "i", "E", "O", "oy", "uu", "oo", "b", "ch", "d", "thh", "f", "g", "h", "j", "k", "L", "m", "n", "ng", "p", "r", "s", "sh", "t", "th", "v", "w", "y", "z", "shz"]
     var vowels = ["ah", "a", "uh", "awe", "ow", "I", "e", "er", "A", "i", "E", "O", "oy", "uu", "oo"]
-    let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "EH": "e", "ER": "er", "EY": "A", "IH": "i", "IY": "E", "OW": "O", "OY": "oy", "UH": "uu", "UW": "oo", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "F": "f", "G": "g", "HH": "h", "JH": "j", "K": "k", "L": "l", "M": "m", "N": "n", "NG": "ng", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
+    let phoneme_human: Dictionary<String, String> = ["AA": "ah", "AE": "a", "AH": "uh", "AO": "awe", "AW": "ow", "AY": "I", "EH": "e", "ER": "er", "EY": "A", "IH": "i", "IY": "E", "OW": "O", "OY": "oy", "UH": "uu", "UW": "oo", "B": "b", "CH": "ch", "D": "d", "DH": "thh", "F": "f", "G": "g", "HH": "h", "JH": "j", "K": "k", "L": "L", "M": "m", "N": "n", "NG": "ng", "P": "p", "R": "r", "S": "s", "SH": "sh", "T": "t", "TH": "th", "V": "v", "W": "w", "Y": "y", "Z": "z", "ZH": "shz"]
     
     // Dictionaries containing elements with n phonemes
     var numPhonemesDicts: [Dictionary<String, [String]>] = [[:], [:], [:], [:], [:]]

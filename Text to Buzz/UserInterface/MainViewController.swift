@@ -125,7 +125,6 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func didPressPlaySentence(_ sender: Any) {
-        playbackStepper.isEnabled = false
         playSentence.isEnabled = false
         playSentence(sentence: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
     }
@@ -145,7 +144,9 @@ class MainViewController: UIViewController {
     }
     
     func playSentence(sentence: String) {
-        if difficultyPicker.selectedSegmentIndex == 0 {
+        playbackStepper.isEnabled = false
+        guessTheWord.isEnabled = false
+        if difficultyPicker.selectedSegmentIndex == 0 && typePracticeSegment.selectedSegmentIndex == 1 {
             playDifficultyOne(phoneme: sentence)
         } else {
             var seconds = 0.0
@@ -187,6 +188,7 @@ class MainViewController: UIViewController {
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
         self.playbackStepper.isEnabled = true
         self.playSentence.isEnabled = true
+        self.guessTheWord.isEnabled = true
         self.updateMotorHeight(motorValues: [0,0,0,0])
         
         // Re-enable practice words
@@ -347,6 +349,7 @@ class MainViewController: UIViewController {
     
     @IBAction func didPressClear(_ sender: Any) {
         self.textInput.text = ""
+        self.textInput.becomeFirstResponder()
     }
     
     @IBAction func didPressStepper(_ sender: Any) {
