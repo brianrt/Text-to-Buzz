@@ -54,9 +54,6 @@ class MainViewController: UIViewController {
     var initialMotorViewHeight: CGFloat!
     var initialMotorViewY: CGFloat!
     
-    // Current motor state
-    var motorValues: [UInt8] = [0,0,0,0]
-    
     // Time allowed for each phoneme vibration
     var playBackSpeed = 1.0
     
@@ -111,16 +108,11 @@ class MainViewController: UIViewController {
         practiceWord4.addTarget(self, action: #selector(self.didPressTrainingWord(_:)), for: .touchUpInside)
         practiceWordsArray = [practiceWord1, practiceWord2, practiceWord3, practiceWord4]
     }
-    
-    private func initializeMotors() {
-        motorValues = [0,0,0,0]
-    }
 
     @IBAction func didPressConnectToBuzz(_ sender: Any) {
         if (statusLabel.text == "Scanning for Buzz...") {
             return
         }
-        initializeMotors()
         buzz.takeOverBuzz()
         
         self.trainingView.isHidden = false
@@ -138,26 +130,44 @@ class MainViewController: UIViewController {
         playSentence(sentence: textInput.text!.trimmingCharacters(in: .whitespacesAndNewlines))
     }
     
-    func playSentence(sentence: String) {
+    func playDifficultyOne(phoneme: String){
         var seconds = 0.0
         self.phonemeLabel.text = ""
-        let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: sentence)
-        for wordPhonemes in sentencePhonemes {
-//            let word = wordPhonemes.0
-            let phonemes = wordPhonemes.1
-            for phoneme in phonemes {
-                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
-                var phonemeTime = 0.8 / playBackSpeed
-                // Make vowels longer
-                if self.phonemes.isVowel(phoneme: phoneme) {
-                    phonemeTime *= 1.3
-                }
-                seconds += phonemeTime
-//                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
-//                seconds += 0.2 / playBackSpeed
-            }
+        Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
+        var phonemeTime = 0.8 / playBackSpeed
+        // Make vowels longer
+        if self.phonemes.isVowel(phoneme: phoneme) {
+            phonemeTime *= 1.3
         }
+        seconds += phonemeTime
+        // End playback
         Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
+    }
+    
+    func playSentence(sentence: String) {
+        if difficultyPicker.selectedSegmentIndex == 0 {
+            playDifficultyOne(phoneme: sentence)
+        } else {
+            var seconds = 0.0
+            self.phonemeLabel.text = ""
+            let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: sentence)
+            for wordPhonemes in sentencePhonemes {
+    //            let word = wordPhonemes.0
+                let phonemes = wordPhonemes.1
+                for phoneme in phonemes {
+                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
+                    var phonemeTime = 0.8 / playBackSpeed
+                    // Make vowels longer
+                    if self.phonemes.isVowel(phoneme: phoneme) {
+                        phonemeTime *= 1.3
+                    }
+                    seconds += phonemeTime
+    //                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
+    //                seconds += 0.2 / playBackSpeed
+                }
+            }
+            Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
+        }
     }
     
     @objc func playPhoneme(sender: Timer) {
@@ -177,6 +187,7 @@ class MainViewController: UIViewController {
         self.buzz.vibrateMotors(motorValues: [0,0,0,0])
         self.playbackStepper.isEnabled = true
         self.playSentence.isEnabled = true
+        self.updateMotorHeight(motorValues: [0,0,0,0])
         
         // Re-enable practice words
         for practiceWord in practiceWordsArray {

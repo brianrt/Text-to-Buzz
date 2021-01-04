@@ -102,6 +102,20 @@ class Phonemes: NSObject {
     
     // Returns four random words with difficulty number of phonemes
     public func getRandomWords(difficulty: Int) -> [String] {
+        if difficulty == 1 {
+            // Return phonemes directly for practice coverage
+            var words: [String] = []
+            while words.count < 4 {
+                let index: Int = Int(arc4random_uniform(UInt32(phonemes.count)))
+                let word = phonemes[index]
+                
+                //Ensure no duplicates
+                if !words.contains(word) {
+                    words.append(word)
+                }
+            }
+            return words
+        }
         let phonemesDict = numPhonemesDicts[difficulty - 1]
         var words: [String] = []
         var phonemes: [[String]] = []
