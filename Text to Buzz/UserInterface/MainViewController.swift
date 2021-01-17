@@ -92,7 +92,7 @@ class MainViewController: UIViewController {
         playbackStepper.wraps = true
         playbackStepper.autorepeat = true
         playbackStepper.minimumValue = 1
-        playbackStepper.maximumValue = 5
+        playbackStepper.maximumValue = 10
         playbackStepper.value = 2
         playBackSpeed = playbackStepper.value
         playbackSpeedLabel.text = String(Int(playbackStepper.value))
@@ -132,13 +132,13 @@ class MainViewController: UIViewController {
     func playDifficultyOne(phoneme: String){
         var seconds = 0.0
         self.phonemeLabel.text = ""
-        Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
-        var phonemeTime = 0.8 / playBackSpeed
+        var duration = 0.8 / playBackSpeed
         // Make vowels longer
         if self.phonemes.isVowel(phoneme: phoneme) {
-            phonemeTime *= 1.3
+            duration *= 1.3
         }
-        seconds += phonemeTime
+        Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: (phoneme, duration), repeats: false)
+        seconds += duration
         // End playback
         Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
     }
@@ -150,21 +150,17 @@ class MainViewController: UIViewController {
             playDifficultyOne(phoneme: sentence)
         } else {
             var seconds = 0.0
+            let duration = 1.0 / playBackSpeed
             self.phonemeLabel.text = ""
             let sentencePhonemes = self.phonemes.sentenceToPhonemes(sentence: sentence)
             for wordPhonemes in sentencePhonemes {
-    //            let word = wordPhonemes.0
                 let phonemes = wordPhonemes.1
                 for phoneme in phonemes {
-                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: phoneme, repeats: false)
-                    var phonemeTime = 0.8 / playBackSpeed
-                    // Make vowels longer
-                    if self.phonemes.isVowel(phoneme: phoneme) {
-                        phonemeTime *= 1.3
-                    }
-                    seconds += phonemeTime
-    //                Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: phoneme, repeats: false)
-    //                seconds += 0.2 / playBackSpeed
+                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: (phoneme, duration), repeats: false)
+                    seconds += duration
+                    
+//                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: nil, repeats: false)
+//                    seconds += 0.2 * duration
                 }
             }
             Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
@@ -172,11 +168,28 @@ class MainViewController: UIViewController {
     }
     
     @objc func playPhoneme(sender: Timer) {
-        let phoneme = sender.userInfo as! String
-        let motorValues = self.motorController.getIntensities(phoneme: phoneme)
+        let (phoneme, duration) = sender.userInfo as! (String, Double)
         self.phonemeLabel.text = phoneme
+        var seconds = 0.0
+        let subMotorValues = self.motorController.getSequence(phoneme: phoneme)
+        self.updateMotorHeight(motorValues: self.motorController.getIntensities(phoneme: phoneme))
+        for i in 0..<4 {
+            let motorValues = subMotorValues[i]
+            Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playIntensities(sender:)), userInfo: (i, motorValues), repeats: false)
+            seconds += (0.9 * duration) / 4.0
+            
+            Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: nil, repeats: false)
+            seconds += (0.1 * duration) / 4.0
+        }
+    }
+    
+    @objc func playIntensities(sender: Timer) {
+        let (i, motorValues) = sender.userInfo as! (Int, [UInt8])
+        motorValueViews[i].backgroundColor = UIColor.orange
+        if i > 0 {
+            motorValueViews[i-1].backgroundColor = UIColor.red
+        }
         self.buzz.vibrateMotors(motorValues: motorValues)
-        self.updateMotorHeight(motorValues: motorValues)
     }
     
     @objc func zeroMotors() {
@@ -198,7 +211,6 @@ class MainViewController: UIViewController {
     }
     
     func updateMotorHeight(motorValues: [UInt8]) {
-        
         for i in 0..<4 {
             let motorValue = motorValues[i]
             let heightRatio = CGFloat(motorValue) / 255.0
@@ -206,7 +218,8 @@ class MainViewController: UIViewController {
             let newHeight = heightRatio * initialMotorViewHeight
             let newY = initialMotorViewY + (yRatio * initialMotorViewHeight)
             let motorView = motorValueViews[i]
-            UIView.animate(withDuration: min(0.5 / playBackSpeed, 0.25)) {
+            motorView.backgroundColor = UIColor.red
+            UIView.animate(withDuration: 0.25 / playBackSpeed) {
                 motorView.frame = CGRect(x: motorView.frame.origin.x, y: newY, width: motorView.frame.width, height: newHeight )
             }
         }

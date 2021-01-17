@@ -54,5 +54,14 @@ class MotorController: NSObject {
         return self.phonemeToIntensities[phoneme, default: [0,0,0,0]]
     }
     
+    public func getSequence(phoneme: String) -> [[UInt8]] {
+        let intensities = getIntensities(phoneme: phoneme)
+        var sequence: [[UInt8]] = [[0,0,0,0], [0,0,0,0], [0,0,0,0], [0,0,0,0]]
+        for i in 0..<4 {
+            sequence[i][i] = intensities[i]
+        }
+        return sequence
+    }
+    
     
 }

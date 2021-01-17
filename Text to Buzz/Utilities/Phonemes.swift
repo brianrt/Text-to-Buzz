@@ -48,9 +48,6 @@ class Phonemes: NSObject {
                         }
                     }
                 }
-                
-                
-                print("done")
             } catch {
                 print(error)
             }
