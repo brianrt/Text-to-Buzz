@@ -56,6 +56,7 @@ class MainViewController: UIViewController {
     
     // Time allowed for each phoneme vibration
     var playBackSpeed = 1.0
+    var phonemeRatio = 0.70
     
     // Class instances
     var buzz: Buzz!
@@ -132,11 +133,7 @@ class MainViewController: UIViewController {
     func playDifficultyOne(phoneme: String){
         var seconds = 0.0
         self.phonemeLabel.text = ""
-        var duration = 0.8 / playBackSpeed
-        // Make vowels longer
-        if self.phonemes.isVowel(phoneme: phoneme) {
-            duration *= 1.3
-        }
+        let duration = phonemeRatio / playBackSpeed
         Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: (phoneme, duration), repeats: false)
         seconds += duration
         // End playback
@@ -156,11 +153,13 @@ class MainViewController: UIViewController {
             for wordPhonemes in sentencePhonemes {
                 let phonemes = wordPhonemes.1
                 for phoneme in phonemes {
-                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: (phoneme, duration), repeats: false)
-                    seconds += duration
+                    // Play phoneme
+                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playPhoneme(sender:)), userInfo: (phoneme, phonemeRatio * duration), repeats: false)
+                    seconds += phonemeRatio * duration
                     
-//                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: nil, repeats: false)
-//                    seconds += 0.2 * duration
+                    // Set motors to 0 to differentiate between phonemes
+                    Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: nil, repeats: false)
+                    seconds += (1 - phonemeRatio) * duration
                 }
             }
             Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(endSentence), userInfo: nil, repeats: false)
@@ -176,10 +175,7 @@ class MainViewController: UIViewController {
         for i in 0..<4 {
             let motorValues = subMotorValues[i]
             Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playIntensities(sender:)), userInfo: (i, motorValues), repeats: false)
-            seconds += (0.9 * duration) / 4.0
-            
-            Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(zeroMotors), userInfo: nil, repeats: false)
-            seconds += (0.1 * duration) / 4.0
+            seconds += duration / 4.0
         }
     }
     
@@ -198,7 +194,7 @@ class MainViewController: UIViewController {
     
     @objc func endSentence() {
         self.phonemeLabel.text = ""
-        self.buzz.vibrateMotors(motorValues: [0,0,0,0])
+        self.zeroMotors()
         self.playbackStepper.isEnabled = true
         self.playSentence.isEnabled = true
         self.guessTheWord.isEnabled = true
@@ -219,9 +215,7 @@ class MainViewController: UIViewController {
             let newY = initialMotorViewY + (yRatio * initialMotorViewHeight)
             let motorView = motorValueViews[i]
             motorView.backgroundColor = UIColor.red
-            UIView.animate(withDuration: 0.25 / playBackSpeed) {
-                motorView.frame = CGRect(x: motorView.frame.origin.x, y: newY, width: motorView.frame.width, height: newHeight )
-            }
+            motorView.frame = CGRect(x: motorView.frame.origin.x, y: newY, width: motorView.frame.width, height: newHeight )
         }
     }
     
