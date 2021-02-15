@@ -172,6 +172,7 @@ class MainViewController: UIViewController {
         var seconds = 0.0
         let subMotorValues = self.motorController.getSequence(phoneme: phoneme)
         self.updateMotorHeight(motorValues: self.motorController.getIntensities(phoneme: phoneme))
+        self.phonemes.playPhonemeAudio(phoneme: phoneme)
         for i in 0..<4 {
             let motorValues = subMotorValues[i]
             Timer.scheduledTimer(timeInterval: seconds, target: self, selector: #selector(playIntensities(sender:)), userInfo: (i, motorValues), repeats: false)
@@ -181,10 +182,10 @@ class MainViewController: UIViewController {
     
     @objc func playIntensities(sender: Timer) {
         let (i, motorValues) = sender.userInfo as! (Int, [UInt8])
-        motorValueViews[i].backgroundColor = UIColor.orange
-        if i > 0 {
-            motorValueViews[i-1].backgroundColor = UIColor.red
+        for i in 0..<4 {
+            motorValueViews[i].backgroundColor = UIColor.red
         }
+        motorValueViews[i].backgroundColor = UIColor.orange
         self.buzz.vibrateMotors(motorValues: motorValues)
     }
     

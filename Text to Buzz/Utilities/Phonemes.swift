@@ -18,6 +18,9 @@ class Phonemes: NSObject {
     // Dictionaries containing elements with n phonemes
     var numPhonemesDicts: [Dictionary<String, [String]>] = [[:], [:], [:], [:], [:]]
     
+    // Audio player used for phoneme pronounciation
+    var phonemeAudioPlayer: AVAudioPlayer?
+    
     override init() {
         super.init()
         self.loadDictFromFile()
@@ -128,6 +131,24 @@ class Phonemes: NSObject {
             }
         }
         return words
+    }
+    
+    // Playback audio for the provided phoneme
+    public func playPhonemeAudio(phoneme: String) {
+        var audioPhoneme = phoneme
+        if phoneme != "" {
+            if phoneme == "A" || phoneme == "E" || phoneme == "I" {
+                audioPhoneme = "\(phoneme)-U"
+            }
+            let path = Bundle.main.path(forResource: audioPhoneme, ofType: "m4a", inDirectory: "Resource/PhonemeAudio")!
+            let url = URL(fileURLWithPath: path)
+            do {
+                phonemeAudioPlayer = try AVAudioPlayer(contentsOf: url)
+                phonemeAudioPlayer?.play()
+            } catch {
+                // couldn't load file :(
+            }
+        }
     }
 }
 
